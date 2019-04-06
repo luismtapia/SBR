@@ -16,14 +16,14 @@ public class Manejo_Base_Conocimiento {
         
         if(Inicio == null){
             //BASE VACIA
-            Inicio = new Nodo_BaseConocimineto(llave,nombre, antecedentes, consecuente);
+            Inicio = new Nodo_BaseConocimineto(llave,nombre, antecedentes, consecuente,null);
         }else{
             //BASE OCUPADA
             R = Inicio;
             while(R.Siguiente != null){
                 R = R.Siguiente;
             }
-            R.Siguiente = new Nodo_BaseConocimineto(llave,nombre, antecedentes, consecuente);
+            R.Siguiente = new Nodo_BaseConocimineto(llave,nombre, antecedentes, consecuente,R);
         }
     }
     
@@ -40,5 +40,25 @@ public class Manejo_Base_Conocimiento {
             lectura="ESTA VACIO LA BC";
         }
         return lectura;
+    }
+    
+    public void ordenar(){
+        Nodo_BaseConocimineto R;
+        R=Inicio;
+        
+        
+        if(Inicio != null){//ordena
+            
+            //BASE VACIA
+            //Inicio = new Nodo_BaseConocimineto(llave,nombre, antecedentes, consecuente,null);
+            //BASE OCUPADA
+            R = Inicio;
+            while(R.Siguiente != null){
+                R = R.Siguiente;
+            }
+            //R.Siguiente = new Nodo_BaseConocimineto(llave,nombre, antecedentes, consecuente,R);
+        }else{
+            System.out.println("esta ordenada cara");
+        }
     }
 }

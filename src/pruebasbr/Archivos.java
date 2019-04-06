@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pruebasbr;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -119,7 +113,8 @@ public class Archivos {
             buffer=new StringBuffer(nombre_R);
             buffer.setLength(10);
             archivo_maestro.writeChars(buffer.toString());
-            buffer=new StringBuffer(antecedentess);
+            String nuevos_antecedentes=ordenarANTECEDENTES(antecedentess);
+            buffer=new StringBuffer(nuevos_antecedentes);
             buffer.setLength(50);
             archivo_maestro.writeChars(buffer.toString());
             buffer=new StringBuffer(consecuentess);
@@ -130,6 +125,39 @@ public class Archivos {
         System.out.println("datos a insertar: "+nombre_R+" "+antecedentess+" "+consecuentess);
         archivo_maestro.close();
         archivo_indice.close();
+    }
+    
+    public String ordenarANTECEDENTES(String ANTECEDENTES){//String ANTECEDENTES="d,b,c,c,a";
+        String ordenados="";
+        String[] vectorANTECEDENTES = ANTECEDENTES.split(",");
+        int cuantos=0;
+        
+        for (String string : vectorANTECEDENTES) {
+            cuantos++;
+        }
+             
+        //ORDENAR
+        int i, j;
+        String temp;
+
+        for (i = 0; i < cuantos-1 ; i++) {
+            for (j = i + 1; j < cuantos ; j++) {
+                if (vectorANTECEDENTES[i].compareTo(vectorANTECEDENTES[j]) > 0) {
+                    temp = vectorANTECEDENTES[i];
+                    vectorANTECEDENTES[i] = vectorANTECEDENTES[j];
+                    vectorANTECEDENTES[j] = temp;
+                }
+            }         
+        }
+        
+        for (int k = 0; k < cuantos; k++) {
+            ordenados+=vectorANTECEDENTES[k]+",";
+        }
+        
+        ordenados=ordenados.substring(0, ordenados.length()-1);
+        
+        System.out.println("NUEVA CADENA ORDENADA: "+ordenados);
+        return ordenados;
     }
     
     private int recupera_ultima_llave() throws IOException{
@@ -268,6 +296,7 @@ public class Archivos {
         return pos;
     }
     
+    
     //*******************************************************************************
     public NODO_ConjuntoConflicto extraerCualquierRegla() throws IOException{
         archivo_maestro = new RandomAccessFile(nombre_archivo_maestro, "rw");
@@ -307,6 +336,7 @@ public class Archivos {
             buffer=new StringBuffer(hecho);
             buffer.setLength(8);
             archivo_base_hechos.writeChars(buffer.toString());
+            //reordenaHECHOS_ALFABETICAMENTE(nombre);
             System.out.println("REGISTRO INSERTADO CORRECTAMENTE BH");
         archivo_base_hechos.close();
     }
@@ -324,15 +354,104 @@ public class Archivos {
             System.out.println("encontrada listo paara borrar BH:");
             archivo_base_hechos.seek(archivo_base_hechos.getFilePointer()-16);//bytes de los 8 caracteres
             
-            reordenaHECHOS(hecho);
+            //reordenaHECHOS(hecho);
         }
         archivo_base_hechos.close();
     }
     
-    private void reordenaHECHOS(String hecho_a_eliminar) throws IOException{//Sacando el eliminado
-        buffer=new StringBuffer(hecho_a_eliminar);
-        buffer.setLength(8);
-        archivo_base_hechos.writeChars(buffer.toString());
+    public void burbuja(String nombre) throws FileNotFoundException, IOException{
+        if(esta_ordenado(nombre)){
+            mensajes="YA ESTA ORDENADO";
+        }else{
+            System.out.println("no esta or");
+            //reordenaHECHOS_ALFABETICAMENTE(nombre);
+        }
+            //
+        
+        
+    }
+    
+    public void reordenaHECHOS_ALFABETICAMENTE(String nombre) throws IOException{
+        archivo_base_hechos = new RandomAccessFile(nombre_archivo_base_hechos+nombre, "rw");
+        char nomb[],temp;
+        long puntero=0;
+        String cadena="",pivote,pivote2;
+        
+        
+        while(!esta_ordenado(nombre)){
+            archivo_base_hechos = new RandomAccessFile(nombre_archivo_base_hechos+nombre, "rw");
+            archivo_base_hechos.seek(puntero);
+            
+            nomb=new char[8];
+            for (int c = 0; c < nomb.length; c++) {
+                temp=archivo_base_hechos.readChar();
+                cadena+=temp;
+            }
+            pivote=cadena.trim();
+            cadena="";
+            
+            for (int c = 0; c < nomb.length; c++) {
+                temp=archivo_base_hechos.readChar();
+                cadena+=temp;
+            }
+            pivote2=cadena.trim();
+            cadena="";
+
+            if(pivote2.compareTo(pivote) < 0){
+                archivo_base_hechos.seek(archivo_base_hechos.getFilePointer()-32);
+
+                buffer=new StringBuffer(pivote2);
+                buffer.setLength(8);
+                archivo_base_hechos.writeChars(buffer.toString());
+                buffer=new StringBuffer(pivote);
+                buffer.setLength(8);
+                archivo_base_hechos.writeChars(buffer.toString());
+                
+                archivo_base_hechos.seek(archivo_base_hechos.getFilePointer()-16);
+                System.out.println (pivote2+" va antes que pivote "+pivote);
+                System.out.println("cambia "+pivote2+" por "+pivote);
+            }else{
+                archivo_base_hechos.seek(archivo_base_hechos.getFilePointer()-16);
+            }
+            puntero=archivo_base_hechos.getFilePointer();
+        }//fin de while
+        
+        archivo_base_hechos.close();
+    }
+    
+    private boolean esta_ordenado(String nombre) throws IOException{
+        archivo_base_hechos = new RandomAccessFile(nombre_archivo_base_hechos+nombre, "rw");
+        long ap_actual, ap_final;
+        String cadena="",abc1,abc2;
+        boolean ordenado=true;
+        
+        while ((ap_actual=archivo_base_hechos.getFilePointer())!=(ap_final=archivo_base_hechos.length()-16) && ordenado) {
+            char nombr[]=new char[8],temp;
+            for (int c = 0; c < nombr.length; c++) {
+                temp=archivo_base_hechos.readChar();
+                cadena+=temp;
+            }
+            abc1=cadena.trim();cadena="";
+            
+            char nomb[]=new char[8],tem;
+            for (int c = 0; c < nomb.length; c++) {
+                tem=archivo_base_hechos.readChar();
+                cadena+=tem;
+            }
+            abc2=cadena.trim();cadena="";
+            
+            if (abc1.compareTo(abc2) < 0) {
+                ordenado=true;
+                System.out.println("ordenada");
+            }else{
+                ordenado=false;
+                System.out.println("desordenado");
+            }
+            archivo_base_hechos.seek(archivo_base_hechos.getFilePointer()-16);
+        }//fin while
+        
+        archivo_base_hechos.close();
+        return ordenado;
     }
     
     public String mostrarHECHOS(String nombre) throws IOException{
