@@ -60,7 +60,7 @@ public class Formulario{
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    sintomas[2]="Acúfenos";
+                    sintomas[2]="Estado Nauseoso";
                 }else{
                     sintomas[2]="";
                 }
@@ -71,7 +71,7 @@ public class Formulario{
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    sintomas[3]="Acúfenos";
+                    sintomas[3]="Angina";
                 }else{
                     sintomas[3]="";
                 }
@@ -82,15 +82,30 @@ public class Formulario{
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    sintomas[4]="Acúfenos";
+                    sintomas[4]="Disnea";
                 }else{
                     sintomas[4]="";
                 }
             }
         });
         
+                    s6.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    sintomas[5]="Cefalea pulsatil";
+                    
+                   //archivo.insertarHECHO(sintomas[5], "nombre");
+                
+                   
+                }else{
+                    sintomas[5]="";
+                }
+            }
+        });
+        
         String message = "mensaje";
-        Object[] params = {message, s1,s2};
+        Object[] params = {message, s1,s2,s3,s4,s5,s6};
         int n = JOptionPane.showConfirmDialog(null, params, "Disconnect", JOptionPane.YES_NO_OPTION);
         //boolean dontShow = checkbox1.isSelected();
     }

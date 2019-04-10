@@ -230,8 +230,36 @@ public class Ventana_Inicio extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        Formulario form=new Formulario();
-        form.Formulario();
+         Formulario form=new Formulario();
+         form.Formulario();
+    
+       
+            if(form.s1.isSelected()){
+                String s = salida_hechos.getText()+'\n'+form.s1.getText();
+                
+            salida_hechos.setText(s);
+            }
+            if(form.s2.isSelected()){
+                String s = salida_hechos.getText()+'\n'+form.s2.getText();
+            salida_hechos.setText(s);
+            }
+            if(form.s3.isSelected()){
+                String s = salida_hechos.getText()+'\n'+form.s3.getText();
+            salida_hechos.setText(s);
+            }
+            if(form.s4.isSelected()){
+                String s = salida_hechos.getText()+'\n'+form.s4.getText();
+            salida_hechos.setText(s);
+            }
+            if(form.s5.isSelected()){
+                String s = salida_hechos.getText()+'\n'+form.s5.getText();
+            salida_hechos.setText(s);
+            }
+            if(form.s6.isSelected()){
+                String s = salida_hechos.getText()+'\n'+form.s6.getText();
+            salida_hechos.setText(s);
+            }
+        
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void btn_agregar_mis_hechosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_agregar_mis_hechosActionPerformed

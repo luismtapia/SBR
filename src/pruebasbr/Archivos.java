@@ -212,12 +212,13 @@ public class Archivos {
         archivo_indice.close();
     }
     
-    public String consultar_reglas_secuencial() throws IOException{
-        archivo_maestro = new RandomAccessFile(nombre_archivo_maestro, "rw");
+     public String consultar_reglas_secuencial() throws IOException{            
+        archivo_maestro = new RandomAccessFile(nombre_archivo_maestro, "rw");   
         long ap_actual, ap_final;
         String lectura,cadena="";
         
-        while ((ap_actual=archivo_maestro.getFilePointer())!=(ap_final=archivo_maestro.length())) {            
+        while ((ap_actual=archivo_maestro.
+                getFilePointer())!=(ap_final=archivo_maestro.length())) {            
             cadena+="llave: "+archivo_maestro.readInt();
                 char nom[]=new char[10],temp;
                 for (int c = 0; c < nom.length; c++) {
@@ -368,7 +369,7 @@ public class Archivos {
         }
             //
         
-        
+       
     }
     
     public void reordenaHECHOS_ALFABETICAMENTE(String nombre) throws IOException{

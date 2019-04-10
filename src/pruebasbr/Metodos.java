@@ -92,9 +92,6 @@ public class Metodos {
     
     
     
-    
-    
-    
     //**************************************************************************
     private void cargar_BC_en_grafo() throws IOException{
         Manejo_Base_Conocimiento grafo_resultado=archivo.cargar_reglas_en_grafo();

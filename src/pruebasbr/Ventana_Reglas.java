@@ -195,9 +195,9 @@ public class Ventana_Reglas extends javax.swing.JFrame {
     private void btn_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_consultarActionPerformed
         try {
             lectura=archivo.consultar_reglas_secuencial();
-            //salida.setVisible(true);
+            salida.setVisible(false);
             salida.setText(lectura);
-        } catch (IOException ex) {
+        }   catch (IOException ex) {
             Logger.getLogger(Ventana_Reglas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_consultarActionPerformed
