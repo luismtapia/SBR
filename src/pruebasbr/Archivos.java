@@ -241,6 +241,7 @@ public class Archivos {
         lectura=cadena;
         mensajes="lectura CORRECTA";
         archivo_maestro.close();
+         System.out.println(lectura);
         return lectura;
     }
     
